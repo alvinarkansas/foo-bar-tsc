@@ -1,0 +1,40 @@
+{
+    "Summary":
+    {
+        "totalTransaction": 5,
+        "bestSellingItem": "square hat",
+        "bestSellingCategory": "hats",
+        "rpc": [
+            {
+                "category": "hats",
+                "revenue": 1560000
+            },
+            {
+                "category": "tops",
+                "revenue": 100000
+            },
+            {
+                "category": "shorts",
+                "revenue": 0
+            }
+        ],
+        "revenue": 1660000,
+        "bestSpenders": [
+            {
+                "name": "Dipta",
+                "type": "wholesale",
+                "spent": 1500000
+            },
+            {
+                "name": "Ani",
+                "type": "regular",
+                "spent": 120000
+            },
+            {
+                "name": "Budi",
+                "type": "VIP",
+                "spent": 40000
+            }
+        ]
+    }
+}
