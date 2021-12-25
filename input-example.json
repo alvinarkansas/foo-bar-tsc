@@ -40,6 +40,15 @@
             "price": 50000
           }
         ]
+      }, {
+        "name": "tanpa regular",
+        "type": "hats",
+        "prices": [
+          {
+            "priceFor": "VIP",
+            "price": 15000
+          }
+        ]
       }
     ],
     "Buyers":
@@ -53,6 +62,9 @@
       }, {
         "name": "Charlie",
         "type": "regular"
+      }, {
+        "name": "Dipta",
+        "type": "wholesale"
       }, {
         "name": "Dipta",
         "type": "wholesale"

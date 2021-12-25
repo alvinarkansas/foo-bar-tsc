@@ -9,11 +9,12 @@ export default class Item {
   prices: IPrice[];
 
   constructor(name: string, type: "hats" | "top" | "bottom", prices: IPrice[]) {
-    prices.forEach((el) => {
-      if (el.priceFor !== "regular") {
-        console.log("👾 NO REGULAR PRICE ERROR");
+    for (let price of prices) {
+      if (price.priceFor !== "regular") {
+        console.log(`${name} does not have regular price`);
       }
-    });
+    }
+
     this.name = name;
     this.type = type;
     this.prices = prices;

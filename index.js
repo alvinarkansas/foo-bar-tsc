@@ -11,6 +11,8 @@ var transactionCollection = [];
 input.Items.forEach(function (item) {
     itemCollection.push(new Item_1["default"](item.name, item.type, item.prices));
 });
+console.log(itemCollection);
+console.log(itemCollection.length);
 // console.log("item");
 // console.log(itemCollection);
 // 2. Buat instance Buyer

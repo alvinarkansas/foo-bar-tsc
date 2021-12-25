@@ -12,6 +12,8 @@ let transactionCollection = [];
 input.Items.forEach((item) => {
   itemCollection.push(new Item(item.name, item.type, item.prices));
 });
+console.log(itemCollection);
+console.log(itemCollection.length);
 
 // console.log("item");
 // console.log(itemCollection);
@@ -46,3 +48,5 @@ const summary = new Summary(
 );
 
 console.log(summary);
+
+Summary.createSummary(input)
