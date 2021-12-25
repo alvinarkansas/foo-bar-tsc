@@ -2,13 +2,16 @@ import { ITransaction } from "../interface";
 import { Transaction } from "../models";
 
 export default class TransactionService {
-  static generate(inputTransactions: ITransaction[]) {
-    let transactions: ITransaction[] = [];
+  transactions: ITransaction[];
 
+  constructor(inputTransactions: ITransaction[]) {
+    this.transactions = [];
+    this.generate(inputTransactions)
+  }
+
+  generate(inputTransactions: ITransaction[]) {
     for (let inputTransaction of inputTransactions) {
-      transactions.push(new Transaction(inputTransaction));
+      this.transactions.push(new Transaction(inputTransaction));
     }
-
-    return transactions;
   }
 }

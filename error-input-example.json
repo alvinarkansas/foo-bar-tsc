@@ -15,6 +15,20 @@
       ]
     },
     {
+      "name": "oval hat",
+      "type": "hats",
+      "prices": [
+        {
+          "priceFor": "regular",
+          "price": 20000
+        },
+        {
+          "priceFor": "VIP",
+          "price": 15000
+        }
+      ]
+    },
+    {
       "name": "square hat",
       "type": "hats",
       "prices": [
@@ -41,6 +55,16 @@
           "price": 50000
         }
       ]
+    },
+    {
+      "name": "tanpa regular",
+      "type": "hats",
+      "prices": [
+        {
+          "priceFor": "VIP",
+          "price": 15000
+        }
+      ]
     }
   ],
   "Buyers": [
@@ -55,6 +79,10 @@
     {
       "name": "Charlie",
       "type": "regular"
+    },
+    {
+      "name": "Dipta",
+      "type": "wholesale"
     },
     {
       "name": "Dipta",
@@ -86,6 +114,11 @@
       "item": "square hat",
       "qty": 100,
       "buyer": "Dipta"
+    },
+    {
+      "item": "magic shirt",
+      "qty": 100,
+      "buyer": "Budi"
     }
   ]
 }

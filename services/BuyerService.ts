@@ -2,20 +2,27 @@ import { IBuyer } from "../interface";
 import { Buyer } from "../models";
 
 export default class BuyerService {
-  static generate(inputBuyers: IBuyer[]) {
-    let buyers: IBuyer[] = [];
+  buyers: IBuyer[];
+  errors: boolean;
 
+  constructor(inputBuyers: IBuyer[]) {
+    this.buyers = [];
+    this.errors = false;
+    this.generate(inputBuyers);
+  }
+  generate(inputBuyers: IBuyer[]) {
     for (let inputBuyer of inputBuyers) {
-      if (buyers.find(el => el.name === inputBuyer.name)) {
+      let buyerExists = this.buyers.find(el => el.name === inputBuyer.name);
+
+      if (buyerExists) {
         console.log(`❌ ERROR: Duplicate buyer name --> ${inputBuyer.name}\n`);
+        this.errors = true;
       } else {
-        buyers.push(new Buyer({
+        this.buyers.push(new Buyer({
           name: inputBuyer.name,
           type: inputBuyer.type
         }));
       }
     }
-
-    return buyers;
   }
 }

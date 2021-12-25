@@ -7,12 +7,16 @@ var SummaryService = /** @class */ (function () {
     function SummaryService() {
     }
     SummaryService.create = function (input) {
-        var buyers = BuyerService_1["default"].generate(input.Buyers);
-        var items = ItemService_1["default"].generate(input.Items);
-        var transactions = TransactionService_1["default"].generate(input.Transaction);
+        var buyers = new BuyerService_1["default"](input.Buyers);
+        var items = new ItemService_1["default"](input.Items);
+        var transactions = new TransactionService_1["default"](input.Transaction);
         console.log("👤", buyers);
         console.log("👕", items);
         console.log("🛒", transactions);
+        if (!items.errors && !buyers.errors) {
+            // print invoice
+            console.log("📰 print output");
+        }
     };
     return SummaryService;
 }());
