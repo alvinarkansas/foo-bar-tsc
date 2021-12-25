@@ -1,21 +1,100 @@
-import { IInput } from "../interface";
+import {
+  IBestSpender,
+  IBuyer,
+  IInput,
+  IItem,
+  IRpc,
+  ITransaction,
+} from "../interface";
 import BuyerService from "./BuyerService";
 import ItemService from "./ItemService";
 import TransactionService from "./TransactionService";
 
 export default class SummaryService {
-  static create(input: IInput) {
-    const buyers = new BuyerService(input.Buyers);
-    const items = new ItemService(input.Items);
-    const transactions = new TransactionService(input.Transaction);
+  transactions: ITransaction[];
+  buyers: IBuyer[];
+  items: IItem[];
 
-    console.log("👤", buyers);
-    console.log("👕", items);
-    console.log("🛒", transactions);
+  totalTransaction: number;
+  bestSellingItem: string;
+  bestSellingCategory: string;
+  rpc: IRpc[];
+  revenue: number;
+  bestSpenders: IBestSpender[];
 
-    if (!items.errors && !buyers.errors) {
+  constructor(input: IInput) {
+    this.transactions = [];
+    this.buyers = [];
+    this.items = [];
+
+    this.totalTransaction = 0;
+    this.bestSellingItem = "";
+    this.bestSellingCategory = "";
+    this.rpc = [];
+    this.revenue = 0;
+    this.bestSpenders = [];
+
+    this.create(input);
+  }
+
+  create(input: IInput) {
+    const Buyers = new BuyerService(input.Buyers);
+    const Items = new ItemService(input.Items);
+    const Transactions = new TransactionService(input.Transaction);
+
+    this.buyers = Buyers.buyers;
+    this.items = Items.items;
+    this.transactions = Transactions.transactions;
+
+    if (!Items.errors && !Buyers.errors) {
       // print invoice
-      console.log("📰 print output");
+      
+      this.countTotalTrx();
+      this.setRevenue();
+      console.log("📰 print output\n");
+      this.printOutput();
+    }
+  }
+
+  printOutput() {
+    const output = {
+      Summary: {
+        totalTransaction: this.totalTransaction,
+        bestSellingItem: this.bestSellingItem,
+        bestSellingCategory: this.bestSellingCategory,
+        rpc: this.rpc,
+        revenue: this.revenue,
+        bestSpenders: this.bestSpenders,
+      },
+    };
+    console.log(output);
+  }
+
+  countTotalTrx() {
+    this.totalTransaction = this.transactions.length;
+  }
+
+  assignAppliedPrice() {
+    this.transactions = this.transactions.map(transaction => {
+      let buyerType = this.buyers.find(buyer => buyer.name === transaction.buyer).type;
+      let itemPrices = this.items.find(item => item.name === transaction.item).prices;
+
+      /* assign item price to default regular if there is no match priceFor */
+      let itemPrice = null;
+      if (!itemPrices.find(price => price.priceFor === buyerType)) {
+        itemPrice = itemPrices.find(price => price.priceFor === 'regular').price
+      } else {
+        itemPrice = itemPrices.find(price => price.priceFor === buyerType).price
+      }
+
+      return {...transaction, appliedPrice: itemPrice };
+    })
+  }
+
+  setRevenue() {
+    this.assignAppliedPrice()
+    for (let transaction of this.transactions) {
+      this.revenue += (transaction.appliedPrice * transaction.qty);
     }
   }
 }

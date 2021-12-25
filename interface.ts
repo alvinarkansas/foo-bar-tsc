@@ -1,7 +1,18 @@
-export interface ITransaction {
-  item: any;
-  qty: number;
-  buyer: string;
+export interface IBestSpender {
+  name: string;
+  type: string;
+  spent: number;
+}
+
+export interface IBuyer {
+  name: string;
+  type: string;
+}
+
+export interface IInput {
+  Transaction: ITransaction[];
+  Items: IItem[];
+  Buyers: IBuyer[];
 }
 
 export interface IItem {
@@ -10,18 +21,19 @@ export interface IItem {
   prices: IPrice[];
 }
 
-export interface IBuyer {
-  name: string;
-  type: string;
-}
-
 export interface IPrice {
   priceFor: "VIP" | "regular" | "wholesale";
   price: number;
 }
 
-export interface IInput {
-  Transaction: ITransaction[];
-  Items: IItem[];
-  Buyers: IBuyer[];
+export interface IRpc {
+  category: string;
+  revenue: number;
+}
+
+export interface ITransaction {
+  item: any;
+  qty: number;
+  buyer: string;
+  appliedPrice?: number;
 }
