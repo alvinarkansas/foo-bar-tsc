@@ -34,15 +34,10 @@ var SummaryService = /** @class */ (function () {
         this.buyers = Buyers.buyers;
         this.items = Items.items;
         this.transactions = Transactions.transactions;
-        // console.log("👤", this.buyers);
-        // console.log("👕", this.items);
-        // console.log("🛒", this.transactions);
         if (!Items.errors && !Buyers.errors) {
-            // print invoice
             this.countTotalTrx();
-            this.setBestItem();
-            this.assignAppliedPrice();
             this.setRevenue();
+            this.setBestItem();
             console.log("📰 print output\n");
             this.printOutput();
         }
@@ -64,18 +59,38 @@ var SummaryService = /** @class */ (function () {
         this.totalTransaction = this.transactions.length;
     };
     SummaryService.prototype.setBestItem = function () {
-        // console.log(this.items);
+        var results = [];
+        this.transactions.forEach(function (transaction, index) {
+            var itemExists = false;
+            if (index === 0) {
+                results.push({ item: transaction.item, occurence: transaction.qty });
+            }
+            else {
+                /* check if item exists in results */
+                for (var _i = 0, results_1 = results; _i < results_1.length; _i++) {
+                    var result = results_1[_i];
+                    if (result.item === transaction.item) {
+                        itemExists = true;
+                    }
+                }
+                /* */
+                if (itemExists) {
+                    var itemIndex = results.findIndex(function (el) { return el.item === transaction.item; });
+                    results[itemIndex].occurence += transaction.qty;
+                }
+                else {
+                    results.push({ item: transaction.item, occurence: transaction.qty });
+                }
+            }
+        });
+        var sorted = results.sort(function (a, b) { return b.occurence - a.occurence; });
+        this.bestSellingItem = sorted[0].item;
     };
     SummaryService.prototype.assignAppliedPrice = function () {
         var _this = this;
         this.transactions = this.transactions.map(function (transaction) {
             var buyerType = _this.buyers.find(function (buyer) { return buyer.name === transaction.buyer; }).type;
             var itemPrices = _this.items.find(function (item) { return item.name === transaction.item; }).prices;
-            // console.log("\n🚥🚥🚥🚥🚥🚥🚥\n");
-            // console.log(transaction.buyer);
-            // console.log(buyerType);
-            // console.log(transaction.item);
-            // console.log(itemPrices);
             /* assign item price to default regular if there is no match priceFor */
             var itemPrice = null;
             if (!itemPrices.find(function (price) { return price.priceFor === buyerType; })) {
@@ -84,11 +99,11 @@ var SummaryService = /** @class */ (function () {
             else {
                 itemPrice = itemPrices.find(function (price) { return price.priceFor === buyerType; }).price;
             }
-            // console.log("applied price", itemPrice);
             return __assign(__assign({}, transaction), { appliedPrice: itemPrice });
         });
     };
     SummaryService.prototype.setRevenue = function () {
+        this.assignAppliedPrice();
         for (var _i = 0, _a = this.transactions; _i < _a.length; _i++) {
             var transaction = _a[_i];
             this.revenue += (transaction.appliedPrice * transaction.qty);

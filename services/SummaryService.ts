@@ -47,10 +47,9 @@ export default class SummaryService {
     this.transactions = Transactions.transactions;
 
     if (!Items.errors && !Buyers.errors) {
-      // print invoice
-      
       this.countTotalTrx();
       this.setRevenue();
+      this.setBestItem();
       console.log("📰 print output\n");
       this.printOutput();
     }
@@ -72,6 +71,36 @@ export default class SummaryService {
 
   countTotalTrx() {
     this.totalTransaction = this.transactions.length;
+  }
+
+  setBestItem() {
+    let results: { item: string, occurence: number }[] = [];
+
+    this.transactions.forEach((transaction, index) => {
+      let itemExists = false;
+
+      if (index === 0) {
+        results.push({ item: transaction.item, occurence: transaction.qty });
+      } else {
+        /* check if item exists in results */
+        for (let result of results) {
+          if (result.item === transaction.item) {
+            itemExists = true;
+          }
+        }
+        /* */
+  
+        if (itemExists) {
+          let itemIndex = results.findIndex(el => el.item === transaction.item);
+          results[itemIndex].occurence += transaction.qty;
+        } else {
+          results.push({ item: transaction.item, occurence: transaction.qty });
+        }
+      }
+    })
+
+    const sorted = results.sort((a, b) => b.occurence - a.occurence);
+    this.bestSellingItem = sorted[0].item;
   }
 
   assignAppliedPrice() {
