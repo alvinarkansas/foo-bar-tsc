@@ -56,9 +56,6 @@
       }, {
         "name": "Dipta",
         "type": "wholesale"
-      }, {
-        "name": "Dipta",
-        "type": "wholesale"
       }
     ],
     "Transaction":
@@ -83,6 +80,10 @@
         "item": "square hat",
         "qty": 100,
         "buyer": "Dipta"
+      }, {
+        "item": "magic shirt",
+        "qty": 100,
+        "buyer": "Budi"
       }
     ]
 }

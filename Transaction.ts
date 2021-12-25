@@ -1,10 +1,10 @@
 export default class Transaction {
-  name: string;
+  item: any;
   qty: number;
   buyer: string;
 
-  constructor(name, qty, buyer) {
-    this.name = name;
+  constructor(item, qty, buyer) {
+    this.item = item;
     this.qty = qty;
     this.buyer = buyer;
   }

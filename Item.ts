@@ -1,4 +1,4 @@
-interface IPrice {
+export interface IPrice {
   priceFor: "VIP" | "regular" | "wholesale";
   price: number;
 }

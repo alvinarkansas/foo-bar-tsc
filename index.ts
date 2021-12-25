@@ -1,6 +1,8 @@
 import Buyer from "./Buyer";
 import Item from "./Item";
 import Transaction from "./Transaction";
+import Summary from "./Summary";
+
 const input = require("./input-example.json");
 
 let itemCollection = [];
@@ -11,8 +13,8 @@ input.Items.forEach((item) => {
   itemCollection.push(new Item(item.name, item.type, item.prices));
 });
 
-console.log("item");
-console.log(itemCollection);
+// console.log("item");
+// console.log(itemCollection);
 
 // 2. Buat instance Buyer
 
@@ -24,15 +26,23 @@ input.Buyers.forEach((buyer) => {
   }
 });
 
-console.log("buyer 👾");
-console.log(buyerCollection);
+// console.log("buyer 👾");
+// console.log(buyerCollection);
 
 // 3. Buat instance Transaction
 
 input.Transaction.forEach((transaction) => {
   transactionCollection.push(
-    new Transaction(transaction.name, transaction.qty, transaction.buyer)
+    new Transaction(transaction.item, transaction.qty, transaction.buyer)
   );
 });
 
 // 4. Bikin logic untuk print summary
+
+const summary = new Summary(
+  transactionCollection,
+  buyerCollection,
+  itemCollection
+);
+
+console.log(summary);
